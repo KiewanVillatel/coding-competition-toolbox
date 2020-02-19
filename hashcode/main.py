@@ -80,14 +80,7 @@ def genetic_algorithm(input_path: str):
                                     crossover_fn=Solution.crossover,
                                     mutation_fn=Solution.mutation)
 
-        for iteration in range(100):
-            scores = map(Solution.evaluate, initial_pop)
-
-            max_score = max(scores)
-
-            print('iteration', str(iteration), max_score)
-
-            initial_pop = gen_algo._step(initial_pop)
+        gen_algo.run(initial_pop, iterations=100)
 
         # Serialize best solution
         best_sol = max(initial_pop, key=lambda s: s.compute_score())

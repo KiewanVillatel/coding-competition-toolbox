@@ -1,3 +1,4 @@
+import copy
 import random
 
 import numpy as np
@@ -5,12 +6,13 @@ import numpy as np
 
 class GeneticAlgorithm:
 
-    def __init__(self, eval_fn, crossover_fn=None, mutation_fn=None, parents_ratio=0.5, mutation_ratio=1):
+    def __init__(self, eval_fn, crossover_fn=None, mutation_fn=None, parents_ratio=0.5, mutation_ratio=1, verbose=True):
         self._eval_fn = eval_fn
         self._crossover_fn = crossover_fn
         self._mutation_fn = mutation_fn
         self._parents_ratio = parents_ratio
         self._mutation_ratio = mutation_ratio
+        self._verbose = verbose
 
     def _crossover(self, current_pop):
         if self._crossover_fn is None:
@@ -28,7 +30,7 @@ class GeneticAlgorithm:
 
         childs = [self._crossover_fn(parent_1, parent_2) for parent_1, parent_2 in zip(parents_1, parents_2)]
 
-        new_pop = parent_candidates + childs + current_pop[nb_parents: pop_size - len(childs)]
+        new_pop = parent_candidates + childs + current_pop
 
         return new_pop
 
@@ -41,25 +43,33 @@ class GeneticAlgorithm:
         mutations_idx = np.random.choice(range(len(current_pop)), nb_mutations, replace=True)
 
         for mutation_idx in mutations_idx:
-            current_pop[mutation_idx] = self._mutation_fn(current_pop[mutation_idx])
+            current_pop.append(self._mutation_fn(current_pop[mutation_idx]))
 
         return current_pop
 
-    def _step(self, current_pop):
+    def _step(self, current_pop, max_pop_size):
         current_pop = self._crossover(current_pop)
         current_pop = self._mutation(current_pop)
+        current_pop = sorted(current_pop, key=lambda i: self._eval_fn(i), reverse=True)
+
+        current_pop = current_pop[:max_pop_size]
         return current_pop
 
-    def run(self, initial_pop, iterations=1000):
+    def run(self, initial_pop, iterations=1000, max_pop_size=1000):
+
         current_pop = initial_pop
+
         for _ in range(iterations):
-            current_pop = self._step(current_pop)
+            current_pop = self._step(current_pop, max_pop_size)
+            if self._verbose:
+                print("Pop size {} ".format(len(current_pop)))
+                print("Max score {}".format(max(map(self._eval_fn, current_pop))))
 
         return current_pop
 
 
 if __name__ == "__main__":
-    seed=1
+    seed = 1
     np.random.seed(seed)
     random.seed(seed)
 
@@ -99,23 +109,17 @@ if __name__ == "__main__":
 
 
     def mutation(bag):
-        item_idx = random.randint(0, len(bag) - 1)
+        new_bag = copy.deepcopy(bag)
+        item_idx = random.randint(0, len(new_bag) - 1)
         if random.randint(0, 1) == 0:
-            if len(bag) > 1:
-                bag.pop(item_idx)
+            if len(new_bag) > 1:
+                new_bag.pop(item_idx)
         else:
             added_item = items[random.randint(0, nb_possible_items - 1)]
-            bag.insert(item_idx, added_item)
-        return bag
+            new_bag.insert(item_idx, added_item)
+        return new_bag
 
 
     gen_algo = GeneticAlgorithm(eval_fn=evaluate, crossover_fn=crossover, mutation_fn=mutation)
 
-    for iteration in range(100):
-        scores = map(evaluate, bags)
-
-        max_score = max(scores)
-
-        print('iteration', str(iteration), max_score)
-
-        bags = gen_algo._step(bags)
+    gen_algo.run(bags)
