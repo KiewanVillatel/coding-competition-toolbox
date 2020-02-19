@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import abc
 import pickle
-from hashcode.template.model.problem import Problem
+from hashcode.model.problem import Problem
 
 
 # Required for genetic algorithm
@@ -22,12 +22,12 @@ class Solution:
 
     def __init__(self, problem: Problem):
         self._problem = problem
-        self._generate_solution()
 
+    @staticmethod
     @abc.abstractmethod
-    def _generate_solution(self):
+    def generate_solution(problem: Problem) -> Solution:
         print("Computing solution")
-        pass
+        return Solution(problem)
 
     def build_out_file(self, path: str):
         with open(path, "w") as file:
