@@ -51,10 +51,6 @@ def compute_solutions(input_path: str, output_path: str):
 @main.command()
 @click.option("-i", "--input_path", help="Path to folder containing test cases", default="out")
 def genetic_algorithm(input_path: str):
-    # Build directory for solutions
-    sol_folder = "{}/sol_{}".format(input_path, calendar.timegm(time.gmtime()))
-    mkdir(sol_folder)
-
     # Retrieve all solutions files
     solutions_paths = {}
     sol_folders = [join(input_path, f) for f in listdir(input_path) if isdir(join(input_path, f))]
@@ -66,6 +62,9 @@ def genetic_algorithm(input_path: str):
                 solutions_paths[test_case] = []
 
             solutions_paths[test_case].append(join(sol_folder, test_case))
+
+    sol_folder = "{}/sol_{}".format(input_path, calendar.timegm(time.gmtime()))
+    mkdir(sol_folder)
 
     for test_case in solutions_paths:
         test_case_name = test_case.split(".")[0]
@@ -90,7 +89,6 @@ def genetic_algorithm(input_path: str):
             initial_pop = gen_algo._step(initial_pop)
 
         # Serialize best solution
-
         best_sol = max(initial_pop, key=lambda s: s.compute_score())
 
         serialize_solution(solution=best_sol,

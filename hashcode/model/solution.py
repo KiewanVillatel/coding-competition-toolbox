@@ -5,24 +5,6 @@ import pickle
 from hashcode.model.problem import Problem
 
 
-# Required for genetic algorithm
-def crossover(sol1: Solution, sol2: Solution) -> Solution:
-    pizzas = set(sol1.pizzas + sol2.pizzas)
-    while sum(pizzas) > sol1.problem.max_slices_to_order:
-        pizzas.pop()
-    return Solution(sol1.problem, pizzas)
-
-
-def mutation(sol: Solution) -> Solution:
-    pizzas = sol.pizzas.pop()
-    sol.pizzas = pizzas
-    return sol
-
-
-def evaluate(sol: Solution) -> float:
-    return sol.compute_score()
-
-
 class Solution:
 
     def __init__(self, problem: Problem, pizzas=None):
@@ -58,10 +40,15 @@ class Solution:
 
     @staticmethod
     def crossover(sol1: Solution, sol2: Solution) -> Solution:
-        return sol1
+        pizzas = set(sol1.pizzas + sol2.pizzas)
+        while sum(pizzas) > sol1.problem.max_slices_to_order:
+            pizzas.pop()
+        return Solution(sol1.problem, pizzas)
 
     @staticmethod
     def mutation(sol: Solution) -> Solution:
+        if len(sol.pizzas):
+            sol.pizzas.pop()
         return sol
 
     @staticmethod
