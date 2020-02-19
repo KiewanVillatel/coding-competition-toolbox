@@ -5,19 +5,6 @@ import pickle
 from hashcode.model.problem import Problem
 
 
-# Required for genetic algorithm
-def crossover(sol1: Solution, sol2: Solution) -> Solution:
-    return sol1
-
-
-def mutation(sol: Solution) -> Solution:
-    return sol
-
-
-def evaluate(sol: Solution) -> float:
-    return sol.compute_score()
-
-
 class Solution:
 
     def __init__(self, problem: Problem):

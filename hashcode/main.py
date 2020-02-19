@@ -63,6 +63,10 @@ def genetic_algorithm(input_path: str):
 
             solutions_paths[test_case].append(join(sol_folder, test_case))
 
+    # Create directory to genetic algorithm solutions
+    sol_folder = "{}/sol_{}".format(input_path, calendar.timegm(time.gmtime()))
+    mkdir(sol_folder)
+
     for test_case in solutions_paths:
         test_case_name = test_case.split(".")[0]
         initial_pop = []
@@ -86,9 +90,6 @@ def genetic_algorithm(input_path: str):
             initial_pop = gen_algo._step(initial_pop)
 
         # Serialize best solution
-        sol_folder = "{}/sol_{}".format(input_path, calendar.timegm(time.gmtime()))
-        mkdir(sol_folder)
-
         best_sol = max(initial_pop, key=lambda s: s.compute_score())
 
         serialize_solution(solution=best_sol,
