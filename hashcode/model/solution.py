@@ -40,7 +40,7 @@ class Solution:
 
     @staticmethod
     def crossover(sol1: Solution, sol2: Solution) -> Solution:
-        pizzas = set(sol1.pizzas + sol2.pizzas)
+        pizzas = list(set(sol1.pizzas + sol2.pizzas))
         while sum(pizzas) > sol1.problem.max_slices_to_order:
             pizzas.pop()
         return Solution(sol1.problem, pizzas)
