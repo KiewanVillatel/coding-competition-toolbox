@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import abc
 import pickle
+
+from hashcode.model.book import Book
+from hashcode.model.library import Library
 from hashcode.model.problem import Problem
 
 
@@ -35,6 +38,12 @@ class Solution:
         for scan in self.scans:
             score += sum([b.score for b in scan.books])
         return score
+
+    def scan_book(self, library: Library, book: Book):
+        for scan in self.scans:
+            if scan.library == library:
+                scan.books.append(book)
+                return
 
     @staticmethod
     def crossover(sol1: Solution, sol2: Solution) -> Solution:
