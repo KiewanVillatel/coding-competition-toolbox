@@ -29,7 +29,7 @@ class Problem:
         books = []
         idx = 0
         for sc in scores_book:
-            books.append(Book(idx, sc))
+            books.append(Book(idx, int(sc)))
             idx += 1
 
         libraries = []
