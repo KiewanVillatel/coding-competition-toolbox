@@ -19,11 +19,11 @@ class Solution:
 
     def build_out_file(self, path: str):
         with open(path, "w") as file:
-            lines = [str(len(self.scans))]
+            lines = [str(len(self.scans))+ "\n"]
 
             for scan in self.scans:
-                lines.append("{} {}".format(scan.library.id, len(scan.books)))
-                lines.append(" ".join(scan.books))
+                lines.append("{} {} \n".format(scan.library.id, len(scan.books)))
+                lines.append(" ".join([str(book.id) for book in scan.books]) + "\n")
             file.writelines(lines)
 
     def serialize(self, path: str):
