@@ -30,6 +30,7 @@ class Problem:
         idx = 0
         for sc in scores_book:
             books.append(Book(idx, sc))
+            idx += 1
 
         libraries = []
         for lib_idx in range(lib_nb):
@@ -45,6 +46,7 @@ class Problem:
                 lib_books.append(books[int(lb)])
             libraries.append(Library(books=lib_books, sign_time=signup, books_per_day=lib_ship_capacity, id=lib_idx))
 
+            lib_idx += 1
 
 
 
