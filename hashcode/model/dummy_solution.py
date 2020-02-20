@@ -11,5 +11,5 @@ class DummySolution(Solution):
     @staticmethod
     def generate_solution(problem: Problem) -> Solution:
         sol = DummySolution(problem)
-        sol.scans.append(Scan(problem.libraries[0], problem.libraries[0].books[0]))
+        sol.scans.append(Scan(problem.libraries[0], [problem.libraries[0].books[0]]))
         return sol
