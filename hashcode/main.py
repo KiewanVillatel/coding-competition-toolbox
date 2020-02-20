@@ -7,6 +7,7 @@ from os.path import isfile, join, isdir
 import click
 
 from algos.genetic_algorithm import GeneticAlgorithm
+from hashcode.model.dummy_solution import DummySolution
 from hashcode.model.problem import Problem
 from hashcode.model.solution import Solution
 
@@ -39,7 +40,7 @@ def compute_solutions(input_path: str, output_path: str):
         print("Processing test case {}".format(test_case))
         problem = Problem.parse_from(file_path=join(input_path, test_case),
                                      name=test_case_name)
-        solution = Solution.generate_solution(problem=problem)
+        solution = DummySolution.generate_solution(problem=problem)
 
         serialize_solution(solution=solution,
                            sol_folder=sol_folder,

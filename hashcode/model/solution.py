@@ -9,7 +9,7 @@ class Solution:
 
     def __init__(self, problem: Problem):
         self._problem = problem
-        self.libraries_sign_up = []
+        self.scans = []
 
     @staticmethod
     @abc.abstractmethod
@@ -19,11 +19,11 @@ class Solution:
 
     def build_out_file(self, path: str):
         with open(path, "w") as file:
-            lines = [str(len(self.libraries_sign_up))]
+            lines = [str(len(self.scans))]
 
-            for (library, books) in self.libraries_sign_up:
-                lines.append("{} {}".format(library.id, len(books)))
-                lines.append(" ".join(books))
+            for scan in self.scans:
+                lines.append("{} {}".format(scan.library.id, len(scan.books)))
+                lines.append(" ".join(scan.books))
             file.writelines(lines)
 
     def serialize(self, path: str):
@@ -32,8 +32,8 @@ class Solution:
 
     def compute_score(self) -> float:
         score = 0
-        for (library, books) in self.libraries_sign_up:
-            score += sum([b.score for b in books])
+        for scan in self.scans:
+            score += sum([b.score for b in scan.books])
         return score
 
     @staticmethod
