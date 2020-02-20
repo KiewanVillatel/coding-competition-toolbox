@@ -3,7 +3,8 @@ from typing import List
 
 
 class Library:
-    def __init__(self, books: List[Book], sign_time, books_per_day):
+    def __init__(self, books: List[Book], sign_time: int, books_per_day: int, id: int):
+        self.id = id
         self.books = books
         self.sign_time = sign_time
         self.books_per_day = books_per_day
