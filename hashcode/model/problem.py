@@ -43,9 +43,9 @@ class Problem:
             lib_books = []
             for lb in lib_book_line:
                 lib_books.append(books[int(lb)])
-            libraries.append(Library(books=lib_books, sign_time=signup, books_per_day=lib_ship_capacity))
+            libraries.append(Library(books=lib_books, sign_time=signup, books_per_day=lib_ship_capacity, id=lib_idx))
 
 
 
 
-#        return Problem(name=name, books=books, libraries=)
+        return Problem(name=name, books=books, libraries=libraries, deadline=dead_line)
