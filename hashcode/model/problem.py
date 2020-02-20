@@ -6,10 +6,11 @@ from typing import List
 
 class Problem:
 
-    def __init__(self, name: str, books: List[Book], libraries: List[Library]):
+    def __init__(self, name: str, books: List[Book], libraries: List[Library], deadline: int):
         self.name = name
         self.books = books
         self.libraries = libraries
+        self.deadline = deadline
 
     @staticmethod
     def parse_from(file_path: str, name: str) -> Problem:
