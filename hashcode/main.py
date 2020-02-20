@@ -35,6 +35,7 @@ def compute_solutions(input_path: str, output_path: str):
 
     # Run test cases
     test_cases = [f for f in listdir(input_path) if isfile(join(input_path, f)) and f.endswith(".txt")]
+    test_cases = test_cases[3:4]
     for test_case in test_cases:
         test_case_name = test_case.split(".")[0]
         print("Processing test case {}".format(test_case))
