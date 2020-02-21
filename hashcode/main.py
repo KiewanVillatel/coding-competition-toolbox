@@ -36,7 +36,9 @@ def compute_solutions(input_path: str, output_path: str):
 
     # Run test cases
     test_cases = [f for f in listdir(input_path) if isfile(join(input_path, f)) and f.endswith(".txt")]
-    # test_cases = test_cases[3:4]
+    test_cases.sort()
+    # test_cases = test_cases[0:1]
+    total_score = 0
     for test_case in test_cases:
         test_case_name = test_case.split(".")[0]
         print("Processing test case {}".format(test_case))
@@ -48,7 +50,11 @@ def compute_solutions(input_path: str, output_path: str):
                            sol_folder=sol_folder,
                            test_case_name=test_case_name)
 
-        print("Score for test case {} : {} \n".format(test_case, solution.compute_score()))
+        solution_score = solution.compute_score()
+        print("Score for test case {} : {} \n".format(test_case, solution_score))
+        total_score += solution_score
+
+    print("Total score : {}".format(total_score))
 
 
 @main.command()

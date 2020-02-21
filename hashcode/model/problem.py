@@ -4,7 +4,6 @@ from hashcode.model.library import Library
 from typing import List
 
 
-
 class Problem:
 
     def __init__(self, name: str, books: List[Book], libraries: List[Library], deadline: int):
@@ -17,7 +16,6 @@ class Problem:
     def parse_from(file_path: str, name: str) -> Problem:
         with open(file_path, "r") as file:
             lines = [line.replace('\n', '') for line in file]
-
 
         first_line = lines[0].split(" ")
         book_nb = int(first_line[0])
@@ -34,12 +32,11 @@ class Problem:
 
         libraries = []
         for lib_idx in range(lib_nb):
-            lib_line = lines[2+lib_idx*2].split(" ")
-            lib_book_nb = int(lib_line[0])
+            lib_line = lines[2 + lib_idx * 2].split(" ")
             signup = int(lib_line[1])
             lib_ship_capacity = int(lib_line[2])
 
-            lib_book_line = lines[2+lib_idx*2 + 1].split(" ")
+            lib_book_line = lines[2 + lib_idx * 2 + 1].split(" ")
 
             lib_books = []
             for lb in lib_book_line:
@@ -48,6 +45,8 @@ class Problem:
 
             lib_idx += 1
 
-
+        for library in libraries:
+            for book in library.books:
+                book.libraries.append(library)
 
         return Problem(name=name, books=books, libraries=libraries, deadline=dead_line)
