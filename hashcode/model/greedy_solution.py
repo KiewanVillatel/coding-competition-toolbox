@@ -19,7 +19,7 @@ class GreedySolution(Solution):
                 print("Progress {}%".format((timestep * 100) // problem.deadline))
             if not len(sol._problem.libraries):
                 break
-            library = sol.get_library()
+            library = sol.get_library(problem.deadline - timestep)
             sol._problem.libraries.remove(library)
             timestep += library.sign_time
             sol.scan_books(library, timestep)
@@ -27,9 +27,9 @@ class GreedySolution(Solution):
 
         return sol
 
-    def get_library(self):
+    def get_library(self, remaining_timesteps):
 
-        libraries = sorted(self._problem.libraries, key=lambda l: -l.get_score())
+        libraries = sorted(self._problem.libraries, key=lambda l: -l.get_score(remaining_timesteps))
 
         best_lib = libraries.pop(0)
 

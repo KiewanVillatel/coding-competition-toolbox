@@ -41,6 +41,7 @@ class Problem:
             lib_books = []
             for lb in lib_book_line:
                 lib_books.append(books[int(lb)])
+            lib_books = list(set(lib_books))
             libraries.append(Library(books=lib_books, sign_time=signup, books_per_day=lib_ship_capacity, id=lib_idx))
 
             lib_idx += 1

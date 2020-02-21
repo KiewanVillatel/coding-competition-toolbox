@@ -6,12 +6,17 @@ class Library:
             self.books.append(b)
         self.sign_time = sign_time
         self.books_per_day = books_per_day
-        self.sum_score_books = sum([b.score for b in self.books])
-        self.need_sort = False
+        self.sort_books()
 
     def remove_book(self, book):
         self.books.remove(book)
-        self.sum_score_books -= book.score
+        self.need_sort = True
 
-    def get_score(self):
-        return self.sum_score_books
+    def sort_books(self):
+        self.books.sort(key=lambda b: b.score, reverse=True)
+        self.need_sort = False
+
+    def get_score(self, remaining_timesteps):
+        if self.need_sort:
+            self.sort_books()
+        return sum([b.score for b in self.books[:remaining_timesteps - self.sign_time]])
